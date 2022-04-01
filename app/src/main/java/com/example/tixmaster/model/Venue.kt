@@ -25,7 +25,7 @@ data class Venue (
 @Serializable
 data class GeneralInfo (
     val generalRule: String? = null,
-    val childRule: String
+    val childRule: String? = null
 )
 
 @Serializable
