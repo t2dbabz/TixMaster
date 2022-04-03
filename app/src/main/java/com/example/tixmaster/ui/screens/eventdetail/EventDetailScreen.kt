@@ -38,7 +38,7 @@ fun EventDetailScreen(navController: NavHostController, viewModel: EventDetailVi
 
     Scaffold(
         topBar = {
-           EventScreenAppBar {
+           EventScreenDetailAppBar {
                navController.navigate(Screen.EventScreen.route)
            }
         },

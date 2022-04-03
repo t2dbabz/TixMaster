@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +28,6 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.tixmaster.R
 import com.example.tixmaster.model.Event
-import com.example.tixmaster.navigation.Screen
 import com.example.tixmaster.util.convertDate
 import com.example.tixmaster.util.convertTime
 
@@ -38,7 +38,18 @@ fun EventScreen(
     eventsViewModel: EventsViewModel = hiltViewModel()
 ) {
     val events by eventsViewModel.events.collectAsState()
-    ListContent(events = events, navController )
+
+
+    Scaffold(
+        topBar = {
+            EventScreenAppBar()
+        },
+        content = {
+            ListContent(events = events, navController )
+        }
+    )
+
+
 }
 
 
@@ -60,7 +71,7 @@ fun DisplayEventList(events: List<Event>, navController: NavHostController ) {
 
 @Composable
 fun EventItem(event: Event, onClick: () -> Unit) {
-
+    var eventImage = ""
     val eventDate = event.dates.start.localDate
     val eventTime = event.dates.start.localTime
 
@@ -73,8 +84,13 @@ fun EventItem(event: Event, onClick: () -> Unit) {
     val city = event.embeddedEventDetail.venues.first().city.name
     val stateCode = event.embeddedEventDetail.venues.first().state.stateCode
 
+    event.images.forEach {
+        if (it.ratio == "3_2" &&  it.height >= 426L)
+            eventImage = it.url
+    }
+
     val painter = rememberAsyncImagePainter(model = ImageRequest.Builder(LocalContext.current)
-        .data(event.images.first().url)
+        .data(eventImage)
         .crossfade(durationMillis = 1000)
         .build(),
         placeholder = painterResource(R.drawable.ic_placeholder),
@@ -94,7 +110,7 @@ fun EventItem(event: Event, onClick: () -> Unit) {
             .fillMaxWidth()
             .padding(4.dp)
             .clickable {
-                       onClick()
+                onClick()
             },) {
             
             Image(
@@ -144,5 +160,5 @@ fun EventItem(event: Event, onClick: () -> Unit) {
 @Composable
 @Preview
 fun EventScreenPreview() {
-    //EventItem()
+
 }

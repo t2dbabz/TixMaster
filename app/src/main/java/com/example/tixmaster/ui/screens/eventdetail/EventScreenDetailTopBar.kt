@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EventScreenAppBar(navigateToEventScreen:  () -> Unit) {
+fun EventScreenDetailAppBar(navigateToEventScreen:  () -> Unit) {
     TopAppBar(
         navigationIcon = {
             BackAction(onBackedClicked =  navigateToEventScreen)
