@@ -2,6 +2,7 @@ package com.example.tixmaster.ui.screens.event
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -37,26 +38,28 @@ fun EventScreen(
     eventsViewModel: EventsViewModel = hiltViewModel()
 ) {
     val events by eventsViewModel.events.collectAsState()
-    ListContent(events = events )
+    ListContent(events = events, navController )
 }
 
 
 @Composable
-fun ListContent(events: List<Event> ) {
-    DisplayEventList(events = events )
+fun ListContent(events: List<Event>, navController: NavHostController ) {
+    DisplayEventList(events = events, navController )
 }
 
 @Composable
-fun DisplayEventList(events: List<Event> ) {
+fun DisplayEventList(events: List<Event>, navController: NavHostController ) {
     LazyColumn{
         items(items = events){ event ->
-            EventItem(event = event)
+            EventItem(event = event) {
+                navController.navigate("event_detail/${event.id}")
+            }
         }
     }
 }
 
 @Composable
-fun EventItem(event: Event) {
+fun EventItem(event: Event, onClick: () -> Unit) {
 
     val eventDate = event.dates.start.localDate
     val eventTime = event.dates.start.localTime
@@ -89,7 +92,10 @@ fun EventItem(event: Event) {
 
         Row(modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp),) {
+            .padding(4.dp)
+            .clickable {
+                       onClick()
+            },) {
             
             Image(
                 modifier = Modifier

@@ -13,7 +13,7 @@ fun String.convertDate(context: Context): String? {
         val passedDate: Date = inputFormat.parse(this)
 
         //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021, 12:23 pm
-        val outputFormatDay = SimpleDateFormat("EEE d MMM,", currentLocale)
+        val outputFormatDay = SimpleDateFormat("EEE d MMM, yyyy", currentLocale)
         outputFormatDay.timeZone = TimeZone.getDefault()
         val newDateString = outputFormatDay.format(passedDate)
         newDateString

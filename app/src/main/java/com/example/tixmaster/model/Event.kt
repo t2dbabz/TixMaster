@@ -21,6 +21,8 @@ data class Event(
 
     val priceRanges: List<PriceRange>? = null,
 
+    val seatmap: SeatMap,
+
     @SerialName("_embedded")
     val embeddedEventDetail: EmbeddedEventDetail,
 
@@ -98,4 +100,9 @@ data class Image(
     val height: Long,
     val fallback: Boolean,
     val attribution: String? = null
+)
+@Serializable
+data class SeatMap (
+    @SerialName("staticUrl")
+    val staticURL: String
 )

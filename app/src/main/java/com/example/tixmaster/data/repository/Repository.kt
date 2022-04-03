@@ -18,4 +18,10 @@ class Repository @Inject constructor(private val tixMasterApi: TicketMasterApi) 
             emit(tixMasterApi.getEvents().embedded.events)
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getEventDetail(eventId: String) : Flow<Event>{
+        return flow {
+            emit(tixMasterApi.getEventDetail(eventId = eventId))
+        }.flowOn(Dispatchers.IO)
+    }
 }
